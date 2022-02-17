@@ -10,7 +10,7 @@ import { Router, RouteComponentProps } from "@reach/router";
 import Home from './views/Home';
 import TopBar from './components/TopBar';
 import Navigation from './components/Navigation';
-import { WorkspaceContext } from './workspace';
+import { WorkspaceContext, initWorkspace, IContextPrograms } from './workspace';
 
 require('@solana/wallet-adapter-react-ui/styles.css');
 
@@ -18,14 +18,15 @@ const Dash = (props: RouteComponentProps) => <div>dash</div>;
 
 const App: FC = () => {
 
-	const [network, ] = useState<null|string>('devnet');
+	const [programs, setPrograms] = useState(initWorkspace());
 
-	useEffect(() => {
-	// setup workspace
-	},[]);
+	//useEffect(() => {
+	//// setup Workspace`	
+	//setPrograms(initWorkspace());	
+	//},[]);
 
     return (
-		<WorkspaceContext.Provider value={ {network: network} }>
+		<WorkspaceContext.Provider value={{shardProgram: programs.shardProgram, multisigProgram: programs.multisigProgram }}>
         <Context>
             <Content />
         </Context>

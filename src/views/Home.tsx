@@ -1,12 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { RouteComponentProps } from "@reach/router";
 import { WorkspaceContext } from '../workspace';
+import { fetchTransactions } from '../api/fetch';
 
 const Home = (props: RouteComponentProps) => {
 	const context = React.useContext(WorkspaceContext);
-	const network = context.network as string;
+	const mProgram = context.multisigProgram;
 
-	console.log(network);
+	useEffect(()=>{
+		
+		const fetchTxs = async () => {
+			if(mProgram) {
+				const txs = await fetchTransactions(mProgram);
+				console.log('txs:', txs);
+			}
+		}	
+		fetchTxs();
+	},[mProgram])
 
 	return (
 		<div>
