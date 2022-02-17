@@ -37,7 +37,8 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
         () => [
             new PhantomWalletAdapter(),
         ],
-        [network]
+        // [network]
+		[]
     );
 
     return (
