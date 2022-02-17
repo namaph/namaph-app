@@ -5,20 +5,31 @@ import {
     PhantomWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
 import { clusterApiUrl } from '@solana/web3.js';
-import React, { FC, ReactNode, useMemo } from 'react';
-import { Router, Link, RouteComponentProps } from "@reach/router";
+import { FC, ReactNode, useEffect, useMemo, useState } from 'react';
+import { Router, RouteComponentProps } from "@reach/router";
+import Home from './views/Home';
+import TopBar from './components/TopBar';
+import Navigation from './components/Navigation';
+import { WorkspaceContext } from './workspace';
 
-require('./App.css');
 require('@solana/wallet-adapter-react-ui/styles.css');
 
-const Home = (props: RouteComponentProps) => <div>home<nav><Link to="dash">dashboard</Link></nav></div>;
 const Dash = (props: RouteComponentProps) => <div>dash</div>;
 
 const App: FC = () => {
+
+	const [network, ] = useState<null|string>('devnet');
+
+	useEffect(() => {
+	// setup workspace
+	},[]);
+
     return (
+		<WorkspaceContext.Provider value={ {network: network} }>
         <Context>
             <Content />
         </Context>
+		</WorkspaceContext.Provider>
     );
 };
 export default App;
@@ -37,7 +48,6 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
         () => [
             new PhantomWalletAdapter(),
         ],
-        // [network]
 		[]
     );
 
@@ -53,11 +63,13 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
 const Content: FC = () => {
     return (
         <div className="App">
-            <WalletMultiButton />
 			<div className="font-bold text-3xl">
+			<TopBar/>
+            <WalletMultiButton />
+			<Navigation/>
 			<Router>
-			 <Home path="/" />
-			 <Dash path="dash" />
+				<Home path="/" />
+				<Dash path="dash" />
 			</Router>
 			</div>
         </div>
