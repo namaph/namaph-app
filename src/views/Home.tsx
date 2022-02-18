@@ -1,26 +1,28 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { fetchRegistry } from '../api/fetch';
+import { registryPubkey } from '../constants';
 import { RouteComponentProps } from "@reach/router";
-import { WorkspaceContext } from '../workspace';
-import { fetchTransactions } from '../api/fetch';
+import { WorkspaceContext } from '../App';
+import { IRegistry } from '../model/model';
+import ShowHome from '../components/ShowHome';
+
 
 const Home = (props: RouteComponentProps) => {
-	const context = React.useContext(WorkspaceContext);
-	const mProgram = context.multisigProgram;
-
-	useEffect(()=>{
-		
-		const fetchTxs = async () => {
-			if(mProgram) {
-				const txs = await fetchTransactions(mProgram);
-				console.log('txs:', txs);
+	let { shardProgram } = useContext(WorkspaceContext);
+	let [registry, setRegistry] = useState<null | IRegistry>(null);
+	useEffect(() => {
+		const fetchData = async () => {
+			if (shardProgram) {
+				const reg = await fetchRegistry(registryPubkey, shardProgram);
+				setRegistry(reg);
 			}
-		}	
-		fetchTxs();
-	},[mProgram])
+		}
+		fetchData();
+	}, [shardProgram])
 
 	return (
 		<div>
-			image
+			<ShowHome pubkey={registryPubkey} registry={registry}/>
 		</div>
 	)
 };

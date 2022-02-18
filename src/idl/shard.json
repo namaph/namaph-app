@@ -1,0 +1,329 @@
+{
+  "version": "0.1.0",
+  "name": "shard",
+  "instructions": [
+    {
+      "name": "createMember",
+      "accounts": [
+        {
+          "name": "membership",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "user",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "initMultisig",
+      "accounts": [
+        {
+          "name": "registry",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "multisig",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "membership",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "multisigProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "user",
+          "type": "publicKey"
+        },
+        {
+          "name": "multisigBump",
+          "type": "u8"
+        },
+        {
+          "name": "shardNonce",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "createTransaction",
+      "accounts": [
+        {
+          "name": "membership",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "multisig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "transaction",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "multisigProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "pid",
+          "type": "publicKey"
+        },
+        {
+          "name": "accs",
+          "type": {
+            "vec": {
+              "defined": "TransactionAccountCpi"
+            }
+          }
+        },
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
+      "name": "approve",
+      "accounts": [
+        {
+          "name": "multisig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "transaction",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "membership",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "multisigProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "changeRegistryName",
+      "accounts": [
+        {
+          "name": "registry",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "multisig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "multisigSigner",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "changeTopImage",
+      "accounts": [
+        {
+          "name": "registry",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "multisig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "multisigSigner",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newTxid",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "changeCellType",
+      "accounts": [
+        {
+          "name": "registry",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "multisig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "multisigSigner",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "idLoc",
+          "type": "u32"
+        },
+        {
+          "name": "idType",
+          "type": "u8"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Membership",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Registry",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "multisig",
+            "type": "publicKey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "topImageTxid",
+            "type": "string"
+          },
+          {
+            "name": "cellSize",
+            "type": "u8"
+          },
+          {
+            "name": "types",
+            "type": "bytes"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "TransactionAccountCpi",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "isWritable",
+            "type": "bool"
+          },
+          {
+            "name": "isSigner",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "BumpNotFound",
+      "msg": "can't find bump"
+    },
+    {
+      "code": 6001,
+      "name": "StringTooLong",
+      "msg": "given string is too long"
+    },
+    {
+      "code": 6002,
+      "name": "IndexOutOfRange",
+      "msg": "index is out of rance"
+    }
+  ],
+  "metadata": {
+    "address": "EnbP8wDF7ksar8ttvbiRSeC9SugD3FuFcHkGduH4uqjH"
+  }
+}
