@@ -58,6 +58,7 @@ const Context: FC<{ children: ReactNode }> = ({ children }) => {
 		() => [
 			new PhantomWalletAdapter(),
 		],
+		// eslint-disable-next-line
 		[network]
 	);
 

@@ -4,10 +4,10 @@ interface IShowArweaveImageProps {
 
 const ShowArweaveImage = (props: IShowArweaveImageProps) => {
 	if(props.txid === '') {
-		return(<img src="https://arweave.net/TBrsdaAnYr0C0JQXKMlwJA2sd_W4RQfknotqZYytdWI"/>)
+		return(<img alt="placeholder" src="https://arweave.net/TBrsdaAnYr0C0JQXKMlwJA2sd_W4RQfknotqZYytdWI"/>)
 	} else {
 		const url = `https:://arweave.net/${props.txid}`;
-		return(<img src={url}/>)
+		return(<img alt="main" src={url}/>)
 	}
 }
 

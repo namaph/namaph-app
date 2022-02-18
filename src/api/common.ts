@@ -20,7 +20,7 @@ export const createUser = async (program: Program<Idl>) => {
 
 export const createMember = async (program: Program<Idl>, payer: PublicKey, user?: PublicKey) => {
 
-	if (user == undefined) {
+	if (user === undefined) {
 		user = Keypair.generate().publicKey;
 	}
 
