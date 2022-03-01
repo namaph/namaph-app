@@ -1,40 +1,14 @@
 {
   "version": "0.1.0",
-  "name": "shard",
+  "name": "namaph_multisig",
   "instructions": [
     {
-      "name": "createMember",
+      "name": "initialize",
       "accounts": [
         {
-          "name": "membership",
+          "name": "topology",
           "isMut": true,
           "isSigner": false
-        },
-        {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "user",
-          "type": "publicKey"
-        }
-      ]
-    },
-    {
-      "name": "initMultisig",
-      "accounts": [
-        {
-          "name": "registry",
-          "isMut": true,
-          "isSigner": true
         },
         {
           "name": "multisig",
@@ -42,14 +16,14 @@
           "isSigner": true
         },
         {
-          "name": "membership",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
           "name": "payer",
           "isMut": true,
           "isSigner": true
+        },
+        {
+          "name": "membership",
+          "isMut": true,
+          "isSigner": false
         },
         {
           "name": "multisigProgram",
@@ -64,7 +38,90 @@
       ],
       "args": [
         {
-          "name": "name",
+          "name": "username",
+          "type": "string"
+        },
+        {
+          "name": "mapName",
+          "type": "string"
+        },
+        {
+          "name": "capacity",
+          "type": "u8"
+        },
+        {
+          "name": "nonce",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updateTopology",
+      "accounts": [
+        {
+          "name": "topology",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "id",
+          "type": "u8"
+        },
+        {
+          "name": "value",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "addMembershipAndCreateTransaction",
+      "accounts": [
+        {
+          "name": "proposer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "multisig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "transaction",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "multisigProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "membership",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "username",
           "type": "string"
         },
         {
@@ -72,12 +129,20 @@
           "type": "publicKey"
         },
         {
-          "name": "multisigBump",
-          "type": "u8"
+          "name": "pid",
+          "type": "publicKey"
         },
         {
-          "name": "shardNonce",
-          "type": "u8"
+          "name": "accs",
+          "type": {
+            "vec": {
+              "defined": "TransactionAccountCpi"
+            }
+          }
+        },
+        {
+          "name": "data",
+          "type": "bytes"
         }
       ]
     },
@@ -148,6 +213,11 @@
           "isSigner": false
         },
         {
+          "name": "wallet",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
           "name": "multisigProgram",
           "isMut": false,
           "isSigner": false
@@ -156,12 +226,17 @@
       "args": []
     },
     {
-      "name": "changeRegistryName",
+      "name": "createTreasury",
       "accounts": [
         {
-          "name": "registry",
+          "name": "treasury",
           "isMut": true,
           "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
         },
         {
           "name": "multisig",
@@ -169,71 +244,45 @@
           "isSigner": false
         },
         {
-          "name": "multisigSigner",
+          "name": "systemProgram",
           "isMut": false,
-          "isSigner": true
+          "isSigner": false
         }
       ],
       "args": [
         {
-          "name": "newName",
+          "name": "treasuryName",
           "type": "string"
+        },
+        {
+          "name": "authority",
+          "type": "publicKey"
         }
       ]
     },
     {
-      "name": "changeTopImage",
+      "name": "spend",
       "accounts": [
         {
-          "name": "registry",
+          "name": "treasury",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "multisig",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "multisigSigner",
+          "name": "authority",
           "isMut": false,
           "isSigner": true
-        }
-      ],
-      "args": [
+        },
         {
-          "name": "newTxid",
-          "type": "string"
-        }
-      ]
-    },
-    {
-      "name": "changeCellType",
-      "accounts": [
-        {
-          "name": "registry",
+          "name": "to",
           "isMut": true,
           "isSigner": false
-        },
-        {
-          "name": "multisig",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "multisigSigner",
-          "isMut": false,
-          "isSigner": true
         }
       ],
       "args": [
         {
-          "name": "idLoc",
-          "type": "u32"
-        },
-        {
-          "name": "idType",
-          "type": "u8"
+          "name": "amount",
+          "type": "u64"
         }
       ]
     }
@@ -245,8 +294,12 @@
         "kind": "struct",
         "fields": [
           {
-            "name": "user",
+            "name": "wallet",
             "type": "publicKey"
+          },
+          {
+            "name": "username",
+            "type": "string"
           },
           {
             "name": "bump",
@@ -256,7 +309,35 @@
       }
     },
     {
-      "name": "Registry",
+      "name": "Topology",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "mapName",
+            "type": "string"
+          },
+          {
+            "name": "capacity",
+            "type": "u8"
+          },
+          {
+            "name": "values",
+            "type": "bytes"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Treasury",
       "type": {
         "kind": "struct",
         "fields": [
@@ -265,20 +346,16 @@
             "type": "publicKey"
           },
           {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
             "name": "name",
             "type": "string"
           },
           {
-            "name": "topImageTxid",
-            "type": "string"
-          },
-          {
-            "name": "cellSize",
+            "name": "bump",
             "type": "u8"
-          },
-          {
-            "name": "types",
-            "type": "bytes"
           }
         ]
       }
@@ -309,21 +386,21 @@
   "errors": [
     {
       "code": 6000,
-      "name": "BumpNotFound",
-      "msg": "can't find bump"
+      "name": "StringTooLong",
+      "msg": "string is too long"
     },
     {
       "code": 6001,
-      "name": "StringTooLong",
-      "msg": "given string is too long"
+      "name": "BumpMismatch",
+      "msg": "bump do not match"
     },
     {
       "code": 6002,
-      "name": "IndexOutOfRange",
-      "msg": "index is out of rance"
+      "name": "NotEnoughBalanceInTreasury",
+      "msg": "not enough balance"
     }
   ],
   "metadata": {
-    "address": "EnbP8wDF7ksar8ttvbiRSeC9SugD3FuFcHkGduH4uqjH"
+    "address": "A13BbQ3UV9CvermetyC5ymZN2gqCLTM8CqpwragH7kCX"
   }
 }

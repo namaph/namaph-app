@@ -39,7 +39,7 @@
         {
           "name": "transaction",
           "isMut": true,
-          "isSigner": false
+          "isSigner": true
         },
         {
           "name": "proposer",
@@ -320,6 +320,6 @@
     }
   ],
   "metadata": {
-    "address": "6saLSSbJKSovn6stmv8oWN2E7wd6THBPvpMk6YqVRkFY"
+    "address": "F13SUGwECtzuUWKUEFj1fS2ZgZSdiKNu7Wd86NHBStEb"
   }
 }
