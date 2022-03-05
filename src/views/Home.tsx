@@ -2,6 +2,7 @@ import { RouteComponentProps } from "@reach/router";
 import { useEffect, useState } from "react";
 import { projectName } from "../constants";
 import { fetchTopology } from "../fetch";
+import { getCityIoValues, pushCityioValues } from '../cityio';
 
 const Home = (props: RouteComponentProps) => {
 
@@ -13,6 +14,22 @@ const Home = (props: RouteComponentProps) => {
 			const topologyAccount = await fetchTopology(projectName);
 			const v = topologyAccount.data.values;
 			setValues(v);
+
+			// cityio
+			let currentCityIOData = await getCityIoValues();
+
+			let different = false;
+			for (let i = 0; i < v.length; i++) {
+				if (parseInt(currentCityIOData[i]) !== v[i]) {
+					different = true;
+					break;
+				}
+			}
+
+			if (different) {
+				console.log('pushing to cityio...');
+				await pushCityioValues(v);
+			}
 		}
 
 		getData();
