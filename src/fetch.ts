@@ -90,7 +90,7 @@ export const fetchMembership = async (userAddress: PublicKey): Promise<{
 	publicKey: PublicKey, data: IMembership
 }> => {
 
-	
+
 	const topologyAccount = await fetchTopology(projectName);
 
 	const [publicKey] = await PublicKey.findProgramAddress(

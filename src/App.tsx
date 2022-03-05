@@ -20,6 +20,7 @@ const App: FC = () => {
 		() => [
 			new PhantomWalletAdapter(),
 		],
+		// eslint-disable-next-line
 		[network]
 	);
 

@@ -4,8 +4,8 @@ import nIdl from './idl/namaph_multisig.json';
 import mIdl from './idl/serum_multisig.json';
 
 export const projectName = 'namaph-test';
-export const url = 'http://localhost:8899';
-// export const url = 'https://api.devnet.solana.com/'
+// export const url = 'http://localhost:8899';
+export const url = 'https://api.devnet.solana.com/'
 
 export const namaphProgram: PublicKey = new PublicKey(nIdl.metadata.address);
 export const multisigProgram: PublicKey = new PublicKey(mIdl.metadata.address);

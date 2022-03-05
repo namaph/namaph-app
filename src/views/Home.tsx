@@ -19,7 +19,7 @@ const Home = (props: RouteComponentProps) => {
 	}, [])
 
 	const showValues = () => {
-		if (values.length == 0) {
+		if (values.length === 0) {
 			return (
 				<div>
 					values are empty

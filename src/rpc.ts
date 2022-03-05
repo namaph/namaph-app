@@ -160,8 +160,8 @@ export const addMember = async (
 
 	const data = programs.multisig.coder.instruction.encode('set_owners', { owners });
 
-	await programs.namaph.rpc.
-		addMembershipAndCreateTransaction(
+	await programs.namaph.rpc
+		.addMembershipAndCreateTransaction(
 			username,
 			newUser,
 			multisigProgram,

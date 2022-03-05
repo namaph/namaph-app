@@ -23,7 +23,7 @@ const ProposeChangeThreshold: FC<IProposeChangeThresholdProps> = ({ signer, mTx 
 		}
 
 		getData();
-	}, [])
+	}, [mTx.multisig])
 
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

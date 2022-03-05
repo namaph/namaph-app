@@ -39,7 +39,7 @@ const Container = () => {
 			check();
 		}
 
-	}, [connected, appState, isMember])
+	}, [connected, appState, isMember, address])
 
 	return (
 			<AppStateContext.Provider value={appState}>

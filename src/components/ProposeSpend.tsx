@@ -20,10 +20,9 @@ const ProposeSpend: FC<IProposeSpendProps> = ({ signer, mTx }) => {
 		const getData = async () => {
 			const treasuries = await fetchTreasury(mTx.multisig);
 			setTreasury(treasuries[0].publicKey);
-			console.log(treasuries[0].publicKey.toBase58());
 		}
 		getData();
-	}, [])
+	}, [mTx.multisig])
 
 	const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
 		

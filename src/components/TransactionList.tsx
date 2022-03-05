@@ -18,7 +18,7 @@ const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
 			
 			const transactions = txsAccounts
 			.filter(({data})=>{ // filter with the same
-				return data.ownerSetSeqno == multisigAccount.data.ownerSetSeqno
+				return data.ownerSetSeqno === multisigAccount.data.ownerSetSeqno
 			});
 			// .filter(({data})=>{
 			// 	return !data.didExecute
@@ -28,7 +28,7 @@ const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
 		};
 
 		getData();
-	}, []);
+	}, [multisig]);
 
 
 	const showTransactions = (txs: {publicKey: PublicKey, data: ITransaction}[]) => {
@@ -44,7 +44,7 @@ const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
 	}
 
 
-	if (txs.length == 0) {
+	if (txs.length === 0) {
 	return (
 		<div>
 			TransactionList

@@ -46,7 +46,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({ user, multisig, transaction, tx
 			}
 		}
 		getData();
-	}, []);
+	}, [multisig, txSigners, user]);
 
 	const click = async () => {
 		const commitment = 'processed';
