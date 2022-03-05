@@ -147,12 +147,80 @@
       ]
     },
     {
+      "name": "deleteMembershipAndCreateTransaction",
+      "accounts": [
+        {
+          "name": "proposer",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "multisig",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "transaction",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "multisigProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "membership",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "pid",
+          "type": "publicKey"
+        },
+        {
+          "name": "accs",
+          "type": {
+            "vec": {
+              "defined": "TransactionAccountCpi"
+            }
+          }
+        },
+        {
+          "name": "data",
+          "type": "bytes"
+        }
+      ]
+    },
+    {
       "name": "createTransaction",
       "accounts": [
         {
           "name": "membership",
           "isMut": false,
           "isSigner": false
+        },
+        {
+          "name": "wallet",
+          "isMut": false,
+          "isSigner": true
         },
         {
           "name": "multisig",
@@ -298,6 +366,10 @@
             "type": "publicKey"
           },
           {
+            "name": "multisig",
+            "type": "publicKey"
+          },
+          {
             "name": "username",
             "type": "string"
           },
@@ -314,7 +386,7 @@
         "kind": "struct",
         "fields": [
           {
-            "name": "authority",
+            "name": "multisig",
             "type": "publicKey"
           },
           {
@@ -328,6 +400,10 @@
           {
             "name": "values",
             "type": "bytes"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
           },
           {
             "name": "bump",

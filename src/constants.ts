@@ -1,8 +1,19 @@
-import { PublicKey } from "@solana/web3.js";
+import { BorshAccountsCoder, BorshInstructionCoder, Idl } from '@project-serum/anchor';
+import { Connection, PublicKey } from '@solana/web3.js';
+import nIdl from './idl/namaph_multisig.json';
+import mIdl from './idl/serum_multisig.json';
 
-export const multisigPubkey = new PublicKey('B9MN2YjLXvkzYMcGSkwtD7v8jKqN9TSedGoLivJN4vD9');
-export const registryPubkey = new PublicKey('EdP45qnn2Sr847MVqtUs3VgdimJgBh4KS3htq6cR42MC');
-export const multisigSignerPubkey = new PublicKey('2dbLDM7tDpLkTGD6K7DEunX3qEFxYQ9kK5qWarRjoMvT');
+export const projectName = 'namaph-test';
+export const url = 'http://localhost:8899';
+// export const url = 'https://api.devnet.solana.com/'
 
-export const otherMember = new PublicKey('8qwDMgQH6xHSR7yCnhcwQhGZ3f3zPnzEqu98eU2ndhgW');
+export const namaphProgram: PublicKey = new PublicKey(nIdl.metadata.address);
+export const multisigProgram: PublicKey = new PublicKey(mIdl.metadata.address);
+export const connection: Connection = new Connection(url);
+
+export const namaphACoder: BorshAccountsCoder = new BorshAccountsCoder(nIdl as Idl);
+export const multisigACoder: BorshAccountsCoder = new BorshAccountsCoder(mIdl as Idl);
+
+export const namaphICoder: BorshInstructionCoder = new BorshInstructionCoder(nIdl as Idl);
+export const multisigICoder: BorshInstructionCoder = new BorshInstructionCoder(mIdl as Idl);
 
