@@ -20,8 +20,7 @@ export const pushCityioValues = async (values: Uint8Array) => {
 	const data = await fetch(`${cityioBase}table/${ioTableName}/values/`, {
 		method: 'POST',
 		headers: {
-			'Accept': 'application/json',
-			'Context-Type': 'application/json'
+			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify(array)
 	});
