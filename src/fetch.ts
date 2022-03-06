@@ -1,6 +1,6 @@
 import { PublicKey } from '@solana/web3.js';
 import { namaphProgram, namaphACoder, connection, multisigACoder, multisigProgram, projectName } from './constants';
-import { IMembership, IMultisig, ITopology, ITransaction, ITreasury } from './model';
+import { IMembership, IMultisig, ITextTopic, ITopology, ITransaction, ITreasury, IUrlTopic } from './model';
 
 export const fetchTopology = async (mapName: String):
 	Promise<{ publicKey: PublicKey, data: ITopology }> => {
@@ -20,6 +20,33 @@ export const fetchTopology = async (mapName: String):
 	return { publicKey, data }
 }
 
+export const fetchTextTopic = async (textTopic: PublicKey):
+	Promise<{ publicKey: PublicKey, data: ITextTopic }> => {
+
+	const info = await connection.getAccountInfo(textTopic);
+
+	if (!info) {
+		throw new Error(`Account does not exist ${textTopic.toBase58()}`);
+	}
+
+	const data = namaphACoder.decode('TextTopic', info.data) as ITextTopic;
+
+	return { publicKey: textTopic, data }
+}
+
+export const fetchUrlTopic = async (urlTopic: PublicKey):
+	Promise<{ publicKey: PublicKey, data: IUrlTopic }> => {
+
+	const info = await connection.getAccountInfo(urlTopic);
+
+	if (!info) {
+		throw new Error(`Account does not exist ${urlTopic.toBase58()}`);
+	}
+
+	const data = namaphACoder.decode('UrlTopic', info.data) as IUrlTopic;
+
+	return { publicKey: urlTopic, data }
+}
 
 export const fetchTreasury = async (multisig: PublicKey): Promise<{
 	lamports: number, publicKey: PublicKey, data: ITreasury

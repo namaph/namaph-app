@@ -69,6 +69,26 @@ const getNamapInstructionInfo = (instruction: Instruction, data: ITransaction) =
 					</>
 				)
 			}
+		case 'updateTextTopic':
+			{
+				const textTopicData = instruction.data as IUpdateTextTopic;
+				return (
+					<>
+						<div>{textTopicData.title}</div>
+						<div>{textTopicData.body}</div>
+					</>
+				)
+			}
+		case 'updateUrlTopic':
+			{
+				const urlTopicData = instruction.data as IUpdateUrlTopic;
+				return (
+					<>
+						<div>{urlTopicData.title}</div>
+						<div>{urlTopicData.url}</div>
+					</>
+				)
+			}
 		default:
 			{
 				console.log(instruction);
@@ -133,6 +153,17 @@ interface IUpdateTopology {
 interface ISpend {
 	amount: BN
 }
+
+interface IUpdateTextTopic {
+	title: string,
+	body: string
+}
+
+interface IUpdateUrlTopic {
+	title: string,
+	url: string
+}
+
 
 interface IThreshold {
 	threshold: BN

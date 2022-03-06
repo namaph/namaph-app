@@ -190,6 +190,114 @@ export const addMember = async (
 	return { newMembership, accounts, transaction }
 }
 
+export const addTextTopic = async (
+	topicTitle: string,
+	body: string,
+	signer: PublicKey,
+	mTx: IMultisigTransaction
+) => {
+
+	const { programs, multisig, proposer } = mTx;
+	const [textTopic] = await PublicKey.findProgramAddress([
+		Buffer.from("text"),
+		multisig.toBytes(),
+		Buffer.from(topicTitle.slice(0, 32))
+	], programs.namaph.programId);
+
+	const transaction = Keypair.generate();
+
+	const data = programs.namaph.coder.instruction.encode("update_text_topic", {
+		title: topicTitle,
+		body
+	})
+
+	const accounts = programs.namaph.instruction.updateTextTopic.accounts({
+		textTopic,
+		authority: signer,
+	}) as ITransactionAccount[];
+
+
+	await programs.namaph.rpc.createTextTopic(
+		topicTitle,
+		signer,
+		programs.namaph.programId,
+		accounts,
+		data,
+		{
+			accounts: {
+				topic: textTopic,
+				multisig,
+				systemProgram: web3.SystemProgram.programId,
+				proposer,
+				wallet: programs.namaph.provider.wallet.publicKey,
+				transaction: transaction.publicKey,
+				multisigProgram,
+			},
+			signers: [transaction],
+			instructions: [
+				await programs.multisig.account.transaction.createInstruction(transaction, 2000)
+			]
+		});
+
+	return {textTopic, transaction, accounts}
+}
+
+export const addUrlTopic = async (
+	topicTitle: string,
+	url: string,
+	signer: PublicKey,
+	mTx: IMultisigTransaction
+) => {
+
+	const { proposer, multisig, programs } = mTx;
+
+	const [urlTopic] = await PublicKey.findProgramAddress([
+		Buffer.from("url"),
+		multisig.toBytes(),
+		Buffer.from(topicTitle.slice(0, 32))
+	], programs.namaph.programId);
+
+	const transaction = Keypair.generate();
+
+	const data = programs.namaph.coder.instruction.encode("update_url_topic", {
+		title: topicTitle,
+		url
+	})
+
+	const accounts = programs.namaph.instruction.updateUrlTopic.accounts({
+		urlTopic,
+		authority: signer,
+	}) as ITransactionAccount[];
+
+
+	await programs.namaph.rpc.createUrlTopic(
+		topicTitle,
+		signer,
+		programs.namaph.programId,
+		accounts,
+		data,
+		{
+			accounts: {
+				urlTopic,
+				multisig,
+				systemProgram: web3.SystemProgram.programId,
+				proposer,
+				wallet: programs.namaph.provider.wallet.publicKey,
+				transaction: transaction.publicKey,
+				multisigProgram,
+			},
+			signers: [transaction],
+			instructions: [
+				await programs.multisig.account.transaction.createInstruction(transaction, 2000)
+			]
+		});
+
+	return {urlTopic, transaction, accounts}
+}
+
+
+
+
 export const approve = async (
 	programs: IPrograms,
 	multisig: PublicKey,

@@ -42,6 +42,22 @@ export interface ITopology {
 	bump: number
 }
 
+export interface ITextTopic {
+	authority: PublicKey,
+	multisig: PublicKey,
+	title: string,
+	body: string,
+	bump: number
+}
+
+export interface IUrlTopic {
+	authority: PublicKey,
+	multisig: PublicKey,
+	title: string,
+	url: string,
+	bump: number
+}
+
 export interface IMembership {
 	username: string,
 	wallet: PublicKey,

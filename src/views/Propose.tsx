@@ -14,6 +14,8 @@ import ProposeChangeThreshold from '../components/ProposeChangeThreshold';
 import ProposeSpend from '../components/ProposeSpend';
 import ProposeAddOwner from '../components/ProposeAddOwner';
 import ProposeUpdateTopology from '../components/ProposeUpdateTopology';
+import ProposeAddTextTopic from '../components/ProposeAddTextTopic';
+import ProposeAddUrlTopic from '../components/ProposeAddUrlTopic';
 
 const Propose = (props: RouteComponentProps) => {
 	const appState = useContext(AppStateContext);
@@ -78,6 +80,10 @@ const Propose = (props: RouteComponentProps) => {
 				<ProposeAddOwner signer={signer} mTx={mTx} />
 				<hr />
 				<ProposeUpdateTopology signer={signer} mTx={mTx} />
+				<hr />
+				<ProposeAddTextTopic signer={signer} mTx={mTx} />
+				<hr />
+				<ProposeAddUrlTopic signer={signer} mTx={mTx} />
 			</div>
 		)
 	}
