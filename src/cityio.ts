@@ -4,7 +4,6 @@ const ioTableName = 'namaph';
 export const getCityIoValues = async () => {
 	const data = await fetch(`${cityioBase}table/${ioTableName}/values/`);	
 	const result = await data.json();	
-	console.log('cityio data:', result);
 	return result;
 }
 
@@ -32,3 +31,8 @@ export const pushCityioValues = async (values: Uint8Array) => {
 	}
 }
 
+export const getCityIoNodeLabels = async () => {
+	const data = await fetch(`${cityioBase}table/${ioTableName}/labels/`)
+	const list = await data.json();
+	return list;
+}

@@ -40,13 +40,24 @@ const ProposeAddUrlTopic: FC<IProposeProps> = ({ signer, mTx }) => {
 		setTitle('');
 		setUrl('');
 	}
-
 	return (<>
-		<div>
-			<div>Url: </div>
-			<input value={title} onChange={handleTitleChange} />
-			<input value={url} onChange={handleUrlChange} />
-			<button className="disabled:bg-gray-200" onClick={handleSubmit} disabled={disableButton()}>submit</button>
+		<div className="flex flex-col max-w-lg mb-10 space-y-5">
+			<div>
+				<div className="font-semibold">Url Topic:</div>
+				<p>An url can be a Pull Request, a RFC, or whatever url that needs approval as this group.</p>
+			</div>
+			<div className="text-xl flex flex-col space-y-5">
+			<div>
+				<div className="flex flex-row space-x-2 items-center">
+				<span>title: </span> <input className="py-3 px-5 w-2/3" value={title} onChange={handleTitleChange} />
+				</div>
+			</div>
+			<div className="flex flex-row space-x-2 items-center">
+				<span>url: </span><input className="py-2 px-3" value={url} onChange={handleUrlChange} />
+			</div>
+			</div>
+			<button onClick={handleSubmit} disabled={disableButton()} className="p-3 bg-white border border-4 border-gray-800 font-semibold hover:bg-gray-500 hover:text-gray-100 hover:border-gray-500 active:bg-gray-800 active:border-gray-800 active:text-gray-100 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-400 rounded-full"> submit </button>
+
 		</div>
 	</>
 	)

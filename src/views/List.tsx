@@ -21,7 +21,6 @@ const List = (props: RouteComponentProps) => {
 	if (multisig) {
 		return (
 			<div>
-				List of Transactions:
 				<TransactionList multisig={multisig} />
 			</div>)
 	} else {

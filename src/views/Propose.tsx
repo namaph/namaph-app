@@ -72,19 +72,38 @@ const Propose = (props: RouteComponentProps) => {
 		)
 	} else {
 		return (
+		<div>
 			<div>
-				<ProposeChangeThreshold signer={signer} mTx={mTx} />
-				<hr />
-				<ProposeSpend signer={signer} mTx={mTx} />
-				<hr />
-				<ProposeAddOwner signer={signer} mTx={mTx} />
-				<hr />
-				<ProposeUpdateTopology signer={signer} mTx={mTx} />
-				<hr />
-				<ProposeAddTextTopic signer={signer} mTx={mTx} />
-				<hr />
-				<ProposeAddUrlTopic signer={signer} mTx={mTx} />
+			Propose topics to run the DAO!
 			</div>
+			<div className="mb-5">
+				<h1 className="font-semibold text-lg mt-10 mb-5">Topology related topics:</h1>
+				<div className="ml-2">
+				<ProposeUpdateTopology signer={signer} mTx={mTx} />
+				<ProposeSpend signer={signer} mTx={mTx} />
+				</div>
+			</div>
+			<div>
+			<div>
+				<h1 className="font-semibold text-lg mt-10">Multisig related topics:</h1>
+				<div className="ml-2">
+				<p className="text-sm max-w-lg mb-5">Admin topics to change the constiuencies of the group. Once set of the owners change, the 'set sequence number' will be incremented. This will make the topics stale that was unapproved under that previous sequence number. The threshold is the minimum number of approvals requied to pass a topic.</p>
+				<ProposeAddOwner signer={signer} mTx={mTx} />
+				<ProposeChangeThreshold signer={signer} mTx={mTx} />
+				</div>
+			</div>
+			<div>
+				<h1 className="font-semibold text-lg mt-10">Others:</h1>
+				<div className="ml-2">
+				<p className="text-sm max-w-lg mb-5">
+				These may not directly tied to a smart contract, but will be useful for deciding the direction of the community. Proposing a url can also used for specific Pull Request for code.
+				</p>
+				<ProposeAddUrlTopic signer={signer} mTx={mTx} />
+				<ProposeAddTextTopic signer={signer} mTx={mTx} />
+				</div>
+			</div>
+			</div>
+		</div>
 		)
 	}
 };

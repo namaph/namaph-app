@@ -60,7 +60,7 @@ const ApproveButton: FC<ApproveButtonProps> = ({ user, multisig, transaction, tx
 
 	return (
 		<>
-			<button className="disabled:bg-gray-200" disabled={alreadyApproved} onClick={click} > approve </button>
+			<button className="disabled:bg-gray-200 disabled:text-gray-400 p-3 rounded-full" disabled={alreadyApproved} onClick={click} > approve </button>
 		</>
 	)
 }

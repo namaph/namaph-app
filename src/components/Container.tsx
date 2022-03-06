@@ -45,7 +45,7 @@ const Container = () => {
 			<AppStateContext.Provider value={appState}>
 			<div className="container mx-auto px-6 py-16 max-w-screen-lg">
 				<Header />
-				<Router>
+				<Router className="mt-6">
 					<Home path="/" />
 					<List path="list" />
 					<Propose path="propose" />

@@ -235,7 +235,7 @@ export const addTextTopic = async (
 			},
 			signers: [transaction],
 			instructions: [
-				await programs.multisig.account.transaction.createInstruction(transaction, 2000)
+				await programs.multisig.account.transaction.createInstruction(transaction, 5000)
 			]
 		});
 
