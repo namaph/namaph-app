@@ -3,12 +3,15 @@ import { useEffect, useState } from "react";
 import { projectName } from "../constants";
 import { fetchTopology } from "../fetch";
 import { getCityIoValues, pushCityioValues } from '../cityio';
+import { getLatestVis, IVis } from '../simulation';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
+import ShowViz from "../components/showVis";
 
 const Home = (props: RouteComponentProps) => {
 
 	const [values, setValues] = useState(new Uint8Array());
+	const [viz, setViz] = useState<undefined | IVis>();
 
 	useEffect(() => {
 
@@ -32,10 +35,16 @@ const Home = (props: RouteComponentProps) => {
 				console.log('pushing to cityio...');
 				await pushCityioValues(v);
 			}
+
+			setViz(await getLatestVis());
 		}
 
 		getData();
+
 	}, [])
+
+	useEffect(()=>{
+	})
 
 	const showValues = () => {
 		if (values.length === 0) {
@@ -62,8 +71,8 @@ const Home = (props: RouteComponentProps) => {
 				<div className="font-semibold">Current Result:
 				<Link to="/about" className="font-normal text-xs ml-3 underline italic"><FontAwesomeIcon icon={faCircleQuestion}/> what is this?</Link>
 				</div>
-				<img alt="dummy simulation result" src={process.env.PUBLIC_URL + 'result-dummy.png'} />
-			</div>
+				<ShowViz vis={viz}/>
+				</div>
 			<div>
 				<div className="font-semibold">Node Values:</div>
 				<div className="flex flex-row justify-between">
