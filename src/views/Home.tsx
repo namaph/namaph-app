@@ -1,9 +1,9 @@
 import { Link, RouteComponentProps } from "@reach/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { projectName } from "../constants";
 import { fetchTopology } from "../fetch";
 import { getCityIoValues, pushCityioValues } from '../cityio';
-import { getLatestVis, IVis } from '../simulation';
+import { getLatestVis, IViz } from '../simulation';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import ShowViz from "../components/showVis";
@@ -11,7 +11,7 @@ import ShowViz from "../components/showVis";
 const Home = (props: RouteComponentProps) => {
 
 	const [values, setValues] = useState(new Uint8Array());
-	const [viz, setViz] = useState<undefined | IVis>();
+	const [visualizations, setVisualizations] = useState<IViz[]>([]);
 
 	useEffect(() => {
 
@@ -32,56 +32,82 @@ const Home = (props: RouteComponentProps) => {
 			}
 
 			if (different) {
-				console.log('pushing to cityio...');
 				await pushCityioValues(v);
 			}
-
-			setViz(await getLatestVis());
 		}
 
 		getData();
 
 	}, [])
 
-	useEffect(()=>{
-	})
+	const refreshImage = useCallback(async () => {
+		const newVis = await getLatestVis();
 
-	const showValues = () => {
-		if (values.length === 0) {
-			return (
-				<div>
-					values are empty
-				</div>
-			)
-		} else {
+		if (newVis) {
 
-			const elements = Buffer.from(values).toJSON().data.map((v,i)=>(
-			<div key={`item-${i}`} className="bg-white w-3 text-center rounded">
-			{v}
-			</div>
-			));
+			const lastVis = visualizations[visualizations.length-1] ; 		
 
-			return elements
+			if (!lastVis) {
+				setVisualizations([newVis]);
+			} else {
+				if (lastVis.url !== newVis.url) {
+					setVisualizations([...visualizations, newVis]);
+				}
+			}
 		}
+
+	}, []);
+
+
+	const showVisualizations = () => {
+		return visualizations.map(v => <ShowViz key={`${v.url}`} vis={v} />)
 	}
 
-	return (
-		<div className="flex flex-col space-y-4">
-			<div>
-				<div className="font-semibold">Current Result:
-				<Link to="/about" className="font-normal text-xs ml-3 underline italic"><FontAwesomeIcon icon={faCircleQuestion}/> what is this?</Link>
+		// runs each minute
+		useEffect(() => {
+			refreshImage();
+			const interval = setInterval(() => {
+				refreshImage();
+			}, 60000);
+			return () => clearInterval(interval);
+		}, [refreshImage])
+
+		const showValues = () => {
+			if (values.length === 0) {
+				return (
+					<div>
+						values are empty
+					</div>
+				)
+			} else {
+
+				const elements = Buffer.from(values).toJSON().data.map((v, i) => (
+					<div key={`item-${i}`} className="bg-white w-3 text-center rounded">
+						{v}
+					</div>
+				));
+
+				return elements
+			}
+		}
+
+		return (
+			<div className="flex flex-col space-y-4">
+				<div>
+					<div className="font-semibold">Current Result:
+						<Link to="/about" className="font-normal text-xs ml-3 underline italic"><FontAwesomeIcon icon={faCircleQuestion} /> what is this?</Link>
+					</div>
+					{showVisualizations()}
 				</div>
-				<ShowViz vis={viz}/>
-				</div>
-			<div>
-				<div className="font-semibold">Node Values:</div>
-				<div className="flex flex-row justify-between">
-				{showValues()}
+				<div>
+					<div className="font-semibold">Node Values:</div>
+					<div className="flex flex-row justify-between">
+						{showValues()}
+					</div>
 				</div>
 			</div>
-		</div>
-	)
+		)
 
-};
+	};
 
-export default Home;
+	export default Home;
