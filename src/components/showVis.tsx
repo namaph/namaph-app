@@ -1,10 +1,10 @@
-import { IVis, simResultEndpoint } from '../simulation';
+import { IViz, simResultEndpoint } from '../simulation';
 import { displayUuid } from '../utility';
 
 import { FC } from "react";
 
 type ShowVizProps = {
-	vis: IVis | undefined
+	vis: IViz | undefined
 }
 
 const ShowViz: FC<ShowVizProps> = ({ vis }) => {

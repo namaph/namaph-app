@@ -1,12 +1,8 @@
-const simBase = 'https://sim-gnegwwbfoa-uw.a.run.app/';
+const simBase = 'https://instant-sim-gnegwwbfoa-an.a.run.app/api/v1/';
 
 const simResultsEndpoint = `${simBase}results`;
 const simVisEndpoint = `${simBase}vizresult/`;
 export const simResultEndpoint = `${simBase}/result/`;
-const simVisUrlBase = 'https://storage.googleapis.com/instant-sim-viz/';
-const simVisUrlpostamble = '_grid.png';
-
-// https://storage.googleapis.com/instant-sim-viz/22e0d5e8-f4c9-4f47-bf87-e8f485ee5449_1_grid.png
 
 export const getResults = async () => {
 	const response = await fetch(simResultsEndpoint);
@@ -14,62 +10,72 @@ export const getResults = async () => {
 	return results
 }
 
-interface ISimResultMeta {
+interface ResultsResponseItem {
 	id: string,
 	model_name: 'biodiv' | 'economics' | 'quantum',
-	status: number,
+	status: string,
 	timestamp: string
 }
 
-interface ISimVisResult {
-	id: string,
-	url: string[],
-	step: number[],
-	status: string
+interface VizResultResponse {
+	simid: string,
+	timestamp: string,
+	vizresult: VizResult[] 
 }
 
-export interface IVis {
+interface VizResult{
 	id: string,
+	status: number,
+	step: number,
+	url: string,
+}
+
+export interface IViz {
+	id: string,
+	timestamp: string,
 	step: number,
 	url: string,
 }
 
 // just get the biodiv for now
-export const getIds = (results: ISimResultMeta[]): string[] => {
+export const getIds = (results: ResultsResponseItem[]) => {
 	return results
-	.filter(r => (r.model_name === 'biodiv' || r.model_name === 'economics'))
-	.map(s => s.id);
+	.filter(r => (r.status === 'done'))
+	.filter(r => (r.model_name === 'biodiv'))
 }
 
-export const getImageUrls = async (id:string) => {
-	const response = await fetch(`${simVisEndpoint}${id}`, {
+export const getImageUrls = async (simResult: ResultsResponseItem) => {
+	const response = await fetch(`${simVisEndpoint}${simResult.id}`, {
 		headers:{
 			'accept': 'application/json'
 		}
 	});
 
-	const visResult = await response.json() as ISimVisResult;
-	return visResult;
+	const visResult = await response.json()
+	return {...visResult, timestamp: simResult.timestamp};
 }
 
-export const getImage = (visResult: ISimVisResult): IVis | undefined=> {
-	if(visResult.status !== 'done') return undefined;
-	const step = Math.max(...visResult.step);
-	const id = visResult.id;
-	const url = 
-		`${simVisUrlBase}${id}_${step}${simVisUrlpostamble}`;			
+export const getImage = (visResultResonse: VizResultResponse): IViz | undefined=> {
 
-	return {id, step, url}
+	const results: VizResult[] = visResultResonse.vizresult;
+
+	const sorted = results
+		.sort((a, b)=>b.step-a.step)
+		.filter(r => r.url.endsWith('graph.png'));
+
+	const {id, step, url} = sorted[0];
+
+
+	return {id, step, url, timestamp: visResultResonse.timestamp}
 }
 
-export const getLatestVis = async (): Promise<undefined|IVis> => {
-	
-	let visResult: ISimVisResult;
+export const getLatestVis = async (): Promise<undefined|IViz> => {
 
+	let visResult;
 	try{
 		const results = await getResults();
 		const ids = getIds(results);
-		visResult = await getImageUrls(ids[0]);
+		visResult = await getImageUrls(ids[0])
 	} catch {
 		return undefined
 	}
