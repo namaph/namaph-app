@@ -56,7 +56,7 @@ const Home = (props: RouteComponentProps) => {
 			}
 		}
 
-	}, []);
+	}, [visualizations]);
 
 
 	const showVisualizations = () => {
