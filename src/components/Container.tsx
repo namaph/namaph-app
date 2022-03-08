@@ -4,8 +4,10 @@ import { Router } from '@reach/router';
 import { AppStateContext } from '../workspace';
 
 import Header from './Header';
+import Footer from './Footer';
 import Home from '../views/Home';
 import List from '../views/List';
+import Join from '../views/Join';
 import Propose from '../views/Propose';
 import { AppState } from '../model';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -49,7 +51,9 @@ const Container = () => {
 					<Home path="/" />
 					<List path="list" />
 					<Propose path="propose" />
+					<Join path="join" />
 				</Router>
+				<Footer />
 			</div>
 			</AppStateContext.Provider>
 	);

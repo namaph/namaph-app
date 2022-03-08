@@ -58,7 +58,7 @@ const SingleTransactionItem: FC<SingleTransactionProps> = ({ publicKey, data }) 
 	return (
 		<div>
 			<div className="flex flex-row justify-between">
-				<div className="font-semibold mb-2"> {title} </div>
+				<div className="font-semibold mb-2 text-lg"> {title} </div>
 				<div className="text-xs"> <a className="underline" href={`https://explorer.solana.com/address/${publicKey.toBase58()}?cluster=devnet`}>{displayPubkey(publicKey)}</a></div>
 			</div>
 			<div> {contents} </div>

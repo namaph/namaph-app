@@ -61,7 +61,7 @@ export const getImage = (visResultResonse: VizResultResponse): IViz | undefined=
 
 	const sorted = results
 		.sort((a, b)=>b.step-a.step)
-		.filter(r => r.url.endsWith('graph.png'));
+		.filter(r => r.url.endsWith('grid.png'));
 
 	const {id, step, url} = sorted[0];
 

@@ -61,7 +61,7 @@ const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
 				</div>
 			)
 		})
-		return list
+		return <div className="flex flex-col space-y-4"> {list} </div>
 	}
 
 	const showStaleTransactions = (txs: { publicKey: PublicKey, data: ITransaction }[]) => {

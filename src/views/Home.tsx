@@ -45,7 +45,7 @@ const Home = (props: RouteComponentProps) => {
 
 		if (newVis) {
 
-			const lastVis = visualizations[visualizations.length-1] ; 		
+			const lastVis = visualizations[visualizations.length - 1];
 
 			if (!lastVis) {
 				setVisualizations([newVis]);
@@ -60,54 +60,58 @@ const Home = (props: RouteComponentProps) => {
 
 
 	const showVisualizations = () => {
-		return visualizations.map(v => <ShowViz key={`${v.url}`} vis={v} />)
+		if (visualizations.length === 0) {
+			return <div>Loading visualizations...</div>
+		} else {
+			return visualizations.map(v => <ShowViz key={`${v.url}`} vis={v} />)
+		}
 	}
 
-		// runs each minute
-		useEffect(() => {
+	// runs each minute
+	useEffect(() => {
+		refreshImage();
+		const interval = setInterval(() => {
 			refreshImage();
-			const interval = setInterval(() => {
-				refreshImage();
-			}, 60000);
-			return () => clearInterval(interval);
-		}, [refreshImage])
+		}, 60000);
+		return () => clearInterval(interval);
+	}, [refreshImage])
 
-		const showValues = () => {
-			if (values.length === 0) {
-				return (
-					<div>
-						values are empty
-					</div>
-				)
-			} else {
-
-				const elements = Buffer.from(values).toJSON().data.map((v, i) => (
-					<div key={`item-${i}`} className="bg-white w-3 text-center rounded">
-						{v}
-					</div>
-				));
-
-				return elements
-			}
-		}
-
-		return (
-			<div className="flex flex-col space-y-4">
+	const showValues = () => {
+		if (values.length === 0) {
+			return (
 				<div>
-					<div className="font-semibold">Current Result:
-						<Link to="/about" className="font-normal text-xs ml-3 underline italic"><FontAwesomeIcon icon={faCircleQuestion} /> what is this?</Link>
-					</div>
-					{showVisualizations()}
+					values are empty
 				</div>
-				<div>
-					<div className="font-semibold">Node Values:</div>
-					<div className="flex flex-row justify-between">
-						{showValues()}
-					</div>
+			)
+		} else {
+
+			const elements = Buffer.from(values).toJSON().data.map((v, i) => (
+				<div key={`item-${i}`} className="bg-white w-3 text-center rounded">
+					{v}
+				</div>
+			));
+
+			return elements
+		}
+	}
+
+	return (
+		<div className="flex flex-col space-y-4">
+			<div>
+				<div className="font-semibold">Current Result:
+					<Link to="/about" className="font-normal text-xs ml-3 underline italic"><FontAwesomeIcon icon={faCircleQuestion} /> what is this?</Link>
+				</div>
+				{showVisualizations()}
+			</div>
+			<div>
+				<div className="font-semibold">Node Values:</div>
+				<div className="flex flex-row justify-between">
+					{showValues()}
 				</div>
 			</div>
-		)
+		</div>
+	)
 
-	};
+};
 
-	export default Home;
+export default Home;

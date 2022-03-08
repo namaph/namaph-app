@@ -17,3 +17,5 @@ export const multisigACoder: BorshAccountsCoder = new BorshAccountsCoder(mIdl as
 export const namaphICoder: BorshInstructionCoder = new BorshInstructionCoder(nIdl as Idl);
 export const multisigICoder: BorshInstructionCoder = new BorshInstructionCoder(mIdl as Idl);
 
+export const discordInviteLink: string = 'https://discord.gg/eFNzXbEr5j';
+export const githubOrgLink: string = 'https://github.com/namaph';
