@@ -77,14 +77,14 @@ const getNamapInstructionInfo = (instruction: Instruction, data: ITransaction) =
 	switch (instruction.name) {
 		case 'updateTopology':
 			{
-				title = 'Update Topology';
+				title = 'Update Zoning / ゾーニング更新';
 				const updateTopology = instruction.data as IUpdateTopology;
 				contents = <div>node({updateTopology.id}) updates to {updateTopology.value}.</div>;
 				break;
 			}
 		case 'spend':
 			{
-				title = 'DAO pays';
+				title = 'DAO pays / 共同出資';
 				const spend = instruction.data as ISpend;
 				const to = data.accounts[2].pubkey;
 				contents =
@@ -94,15 +94,15 @@ const getNamapInstructionInfo = (instruction: Instruction, data: ITransaction) =
 		case 'updateTextTopic':
 			{
 				const textTopicData = instruction.data as IUpdateTextTopic;
-				title = textTopicData.title;
+				title = `text: ${textTopicData.title}`;
 				contents = <div>{textTopicData.body}</div>;
 				break;
 			}
 		case 'updateUrlTopic':
 			{
 				const urlTopicData = instruction.data as IUpdateUrlTopic;
-				title = urlTopicData.title;
-				contents = <div>{urlTopicData.url}</div>
+				title = `url: ${urlTopicData.title}`;
+				contents = <div><a className="underline" href={urlTopicData.url}>{urlTopicData.url}</a></div>
 				break;
 			}
 		default:
@@ -120,14 +120,14 @@ const getMultisigInstructionInfo = (instruction: Instruction, data: ITransaction
 	switch (instruction.name) {
 		case 'changeThreshold':
 			{
-				title = 'Change Threshold';
+				title = 'Change Threshold / 定足数の更新';
 				const { threshold } = instruction.data as IThreshold;
 				contents = <div>change threshold to {threshold.toString()}</div>
 				break;
 			}
 		case 'setOwners':
 			{
-				title = 'Change Owners';
+				title = 'Change Owners / 構成員の変更';
 				const { owners } = instruction.data as ISetOwners;
 				const ownersShow = owners.map((k) => {
 					return (

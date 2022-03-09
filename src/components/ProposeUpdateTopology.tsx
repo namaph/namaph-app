@@ -31,7 +31,7 @@ const ProposeUpdateTopology: FC<IProposeProps> = ({ signer, mTx }) => {
 			console.log('node labels:', nodeLabels);
 		}
 		getData();
-	}, [])
+	}, [nodeValues, nodeLabels])
 
 	const labelSelect = () => {
 		if (nodeLabels.length !== 0) {

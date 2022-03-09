@@ -24,7 +24,10 @@ export const init = async (
 	console.log(signer);
 
 	const [topology] = await PublicKey.findProgramAddress(
-		[Buffer.from('topology'), Buffer.from(mapName.slice(0, 32))],
+		[
+			Buffer.from('topology'), 
+			Buffer.from(mapName).slice(0, 32),
+		],
 		namaphProgram);
 
 	const [membership] = await PublicKey.findProgramAddress(
@@ -201,7 +204,7 @@ export const addTextTopic = async (
 	const [textTopic] = await PublicKey.findProgramAddress([
 		Buffer.from("text"),
 		multisig.toBytes(),
-		Buffer.from(topicTitle.slice(0, 32))
+		Buffer.from(topicTitle).slice(0, 32)
 	], programs.namaph.programId);
 
 	const transaction = Keypair.generate();
@@ -251,10 +254,12 @@ export const addUrlTopic = async (
 
 	const { proposer, multisig, programs } = mTx;
 
+	
+
 	const [urlTopic] = await PublicKey.findProgramAddress([
 		Buffer.from("url"),
 		multisig.toBytes(),
-		Buffer.from(topicTitle.slice(0, 32))
+		Buffer.from(topicTitle).slice(0,32),
 	], programs.namaph.programId);
 
 	const transaction = Keypair.generate();
