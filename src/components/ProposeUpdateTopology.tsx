@@ -16,21 +16,21 @@ const ProposeUpdateTopology: FC<IProposeProps> = ({ signer, mTx }) => {
 	const [nodeLabels, setNodeLabels] = useState<string[]>([]);
 	const [nodeValues, setNodeValues] = useState<number[]>([]);
 	const [updateInfo, setUpdateInfo] = useState<IUpdateTopologyData>(
-		{id: -1, value: -1}
+		{ id: -1, value: -1 }
 	);
 	const [topologyAccount, setTopologyAccount] = useState<undefined | { publicKey: PublicKey, data: ITopology }>(undefined);
 	const [disabled, setDisabled] = useState<boolean>(true);
 
 	useEffect(() => {
-		const getData = async () => {
-			setNodeLabels(await getCityIoNodeLabels());
-			setNodeValues(await getCityIoValues());
-			const account = await fetchTopology(projectName);
-			setTopologyAccount(account);
-			console.log('node values:', nodeValues);
-			console.log('node labels:', nodeLabels);
+		if (nodeValues.length === 0 || nodeLabels.length === 0) {
+			const getData = async () => {
+				setNodeLabels(await getCityIoNodeLabels());
+				setNodeValues(await getCityIoValues());
+				const account = await fetchTopology(projectName);
+				setTopologyAccount(account);
+			}
+			getData();
 		}
-		getData();
 	}, [nodeValues, nodeLabels])
 
 	const labelSelect = () => {
@@ -47,9 +47,9 @@ const ProposeUpdateTopology: FC<IProposeProps> = ({ signer, mTx }) => {
 	}
 
 	const labelChange = (e: ChangeEvent<HTMLSelectElement>) => {
-		setUpdateInfo({...updateInfo, id:parseInt(e.target.value)});
-		if(updateInfo.value === -1) setDisabled(true);
-		else if(nodeValues[parseInt(e.target.value)] === updateInfo.value) setDisabled(true);
+		setUpdateInfo({ ...updateInfo, id: parseInt(e.target.value) });
+		if (updateInfo.value === -1) setDisabled(true);
+		else if (nodeValues[parseInt(e.target.value)] === updateInfo.value) setDisabled(true);
 		else setDisabled(false);
 	}
 
@@ -67,9 +67,9 @@ const ProposeUpdateTopology: FC<IProposeProps> = ({ signer, mTx }) => {
 	}
 
 	const valueChange = (e: ChangeEvent<HTMLSelectElement>) => {
-		setUpdateInfo({...updateInfo, value: parseInt(e.target.value)});
-		if(updateInfo.id === -1) setDisabled(true);
-		else if(nodeValues[updateInfo.id] === parseInt(e.target.value)) setDisabled(true);
+		setUpdateInfo({ ...updateInfo, value: parseInt(e.target.value) });
+		if (updateInfo.id === -1) setDisabled(true);
+		else if (nodeValues[updateInfo.id] === parseInt(e.target.value)) setDisabled(true);
 		else setDisabled(false);
 	}
 
