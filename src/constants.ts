@@ -3,7 +3,7 @@ import { Connection, PublicKey } from '@solana/web3.js';
 import nIdl from './idl/namaph_multisig.json';
 import mIdl from './idl/serum_multisig.json';
 
-export const projectName = 'namaph-test';
+export const projectName = 'namaph-alpha';
 // export const url = 'http://localhost:8899';
 export const url = 'https://api.devnet.solana.com/'
 

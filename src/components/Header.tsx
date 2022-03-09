@@ -9,9 +9,8 @@ import { faCircleXmark, faCircleExclamation, faCircleCheck } from '@fortawesome/
 
 const Title = () => {
 	// just for photo readyness...
-	console.log(`sync title to project name ${projectName}`);
 	return (
-		<h1 className="text-lg font-semibold flex-auto">namaph</h1>
+		<h1 className="text-lg font-semibold flex-auto">{projectName}</h1>
 	)
 }
 
