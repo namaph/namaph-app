@@ -5,6 +5,7 @@ import { namaphICoder, multisigICoder, namaphProgram } from '../constants';
 import { BN, Instruction } from '@project-serum/anchor';
 import ApproveButton from './ApproveButton';
 import ExecuteButton from './ExecuteButton';
+import MembershipList from './MemberList';
 import { AppStateContext } from '../workspace';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { displayPubkey } from '../utility';
@@ -129,16 +130,11 @@ const getMultisigInstructionInfo = (instruction: Instruction, data: ITransaction
 			{
 				title = 'Change Owners / 構成員の変更';
 				const { owners } = instruction.data as ISetOwners;
-				const ownersShow = owners.map((k) => {
-					return (
-						<div>{k.toBase58()}</div>
-					)
-				});
 				contents = 
 				(	<>
 						<div>changes the constituencies</div>
 						<details>
-							{ownersShow}
+							<MembershipList memberships={owners} />
 						</details>
 					</>
 				)

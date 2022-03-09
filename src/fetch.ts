@@ -1,5 +1,5 @@
 import { PublicKey } from '@solana/web3.js';
-import { namaphProgram, namaphACoder, connection, multisigACoder, multisigProgram, projectName } from './constants';
+import { namaphProgram, namaphACoder, connection, multisigACoder, multisigProgram } from './constants';
 import { IMembership, IMultisig, ITextTopic, ITopology, ITransaction, ITreasury, IUrlTopic } from './model';
 
 export const fetchTopology = async (mapName: String):
@@ -113,17 +113,7 @@ export const fetchTransaction = async (transaction: PublicKey) => {
 	return { publicKey: transaction, data };
 }
 
-export const fetchMembership = async (userAddress: PublicKey): Promise<{
-	publicKey: PublicKey, data: IMembership
-}> => {
-
-
-	const topologyAccount = await fetchTopology(projectName);
-
-	const [publicKey] = await PublicKey.findProgramAddress(
-		[Buffer.from('membership'), topologyAccount.data.multisig.toBytes(), userAddress.toBytes()],
-		namaphProgram)
-
+export const fetchMembership = async (publicKey: PublicKey) =>  {
 	const info = await connection.getAccountInfo(publicKey);
 
 	if (!info) {
