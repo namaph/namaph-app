@@ -40,14 +40,10 @@ const Propose = (props: RouteComponentProps) => {
 				wallet!.publicKey.toBytes()],
 					nPId);
 
-				console.log('user', wallet.publicKey.toBase58());
-				console.log('proposer membership', proposer.toBase58());
-
 				const [signer] = await PublicKey.findProgramAddress(
 					[topologyAccount.data.multisig.toBytes()],
 					mPId
 				);
-				console.log('singer', signer.toBase58());
 
 				setSigner(signer);
 				setMtx(
