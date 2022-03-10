@@ -52,9 +52,12 @@ const Header = () => {
 					<WalletMultiButton />
 				</div>
 
+				<div className="flex flex-col">
 				<div className="flex flex-row">
 					<Title />
 					<Status />
+				</div>
+				<div className="mt-5 mb-3 p-3 bg-white font-semibold">生麩はまちの緑(生態系シミュレーション)のつくり方を『みんな』で育てるプロジェクトです。</div>
 				</div>
 
 				<Navigation />
