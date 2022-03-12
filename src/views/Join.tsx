@@ -1,6 +1,6 @@
 import { faDiscord } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link, RouteComponentProps } from "@reach/router";
+import { RouteComponentProps } from "@reach/router";
 import { useEffect, useState } from "react";
 import { projectName, discordInviteLink } from "../constants";
 import { fetchMultisig, fetchTopology } from "../fetch";
@@ -29,18 +29,19 @@ const Join = (props: RouteComponentProps) => {
 	return (
 		<div className="flex flex-col max-w-lg space-y-8">
 			<h1 className="font-semibold">How to Join the Namaph Project</h1>
-			<div>Namaph は『みんな』で生物多様性シミュレーションを育てていくブロジェクトです。このプロジェクトの詳細は<Link className="underline font-semibold" to="about">こちら</Link>から。</div>
-			
+			<div>Namaph は『みんな』で生物多様性シミュレーションを育てていくブロジェクトです。このプロジェクトの詳細はこちらから。</div>
 			<h2 className="font-semibold">必要なもの:</h2>
 
 			<div>
-			(iPhoneユーザーは1と2のかわりに、Phantom Wallet アプリもあります。投票などはこちらのほうが簡単なので、おすすめです。)
-			<ul className="list-decimal list-inside ml-2 mt-3">
-				<li>Phantom ウォレット対応ブラウザ</li>
-				<li>Phantom ブラウザ拡張プラグイン</li>
-				<li>Discord 登録</li>
-				<li>twitter もしくは、 githubのアカウント</li>
-			</ul>
+				<ul className="list-decimal list-inside ml-2 mt-3">
+					<li>Phantom ウォレット対応ブラウザ</li>
+					<li>ブラウザ拡張プラグイン(<a href="https://addons.mozilla.org/en-US/firefox/addon/phantom-app/">firefox</a> / <a href="https://chrome.google.com/webstore/detail/phantom/bfnaelmomeimhlpmgjnjophhpkkoljpa">chrome</a>)</li>
+					<li>Discord 登録</li>
+					<li>twitter もしくは、 githubのアカウント</li>
+				</ul>
+				<div className="text-sm">
+iPhoneをお持ちの方は、1.と2.のかわりに、<a href="https://apps.apple.com/us/app/phantom-solana-wallet/id1598432977">Phantom Wallet アプリ</a>もあります。投票などはこちらのほうが簡単であり、生体認証もあるのでおすすめです。
+				</div>
 			</div>
 
 			<h2 className="font-semibold">参加のしかた:</h2>
