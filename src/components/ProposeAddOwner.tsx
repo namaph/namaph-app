@@ -33,12 +33,17 @@ const ProposeAddOwner: FC<IProposeAddOwnerProps> = ({ signer, mTx }) => {
 	}
 
 	const handleSubmit = async () => {
-		await addMember(
-			new PublicKey(userStringKey),
-			username,
-			signer,
-			mTx
-		);
+
+		const userPubKey = new PublicKey(userStringKey);
+
+		if(userPubKey.toBase58() === userStringKey){
+			await addMember(
+				userPubKey,
+				username,
+				signer,
+				mTx
+			);
+		}
 
 		setUsername('');
 		setUserStringKey('');
