@@ -219,7 +219,7 @@
         },
         {
           "name": "wallet",
-          "isMut": true,
+          "isMut": false,
           "isSigner": true
         },
         {
@@ -230,11 +230,6 @@
         {
           "name": "transaction",
           "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "transactionMeta",
-          "isMut": true,
           "isSigner": false
         },
         {
@@ -628,26 +623,6 @@
       }
     },
     {
-      "name": "TransactionMeta",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "proposer",
-            "type": "publicKey"
-          },
-          {
-            "name": "timestamp",
-            "type": "i64"
-          },
-          {
-            "name": "bump",
-            "type": "u8"
-          }
-        ]
-      }
-    },
-    {
       "name": "Treasury",
       "type": {
         "kind": "struct",
@@ -740,6 +715,6 @@
     }
   ],
   "metadata": {
-    "address": "A13BbQ3UV9CvermetyC5ymZN2gqCLTM8CqpwragH7kCX"
+    "address": "JBYvEW9maNUBFygXb9QfXQcmuFawvPNek8P7FAi133Aj"
   }
 }
