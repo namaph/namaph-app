@@ -2,6 +2,7 @@ import { FC, useState, ChangeEvent, useEffect } from 'react';
 import { IMultisigTransaction } from '../model';
 import { PublicKey } from '@solana/web3.js';
 import { addMember } from '../rpc';
+import bs58 from 'bs58';
 
 type IProposeAddOwnerProps = {
 	signer: PublicKey,
@@ -35,15 +36,14 @@ const ProposeAddOwner: FC<IProposeAddOwnerProps> = ({ signer, mTx }) => {
 	const handleSubmit = async () => {
 
 		const userPubKey = new PublicKey(userStringKey);
+		const userBase58 = bs58.encode(Buffer.from(username));
 
-		if(userPubKey.toBase58() === userStringKey){
-			await addMember(
-				userPubKey,
-				username,
-				signer,
-				mTx
-			);
-		}
+		await addMember(
+			userPubKey,
+			userBase58,
+			signer,
+			mTx
+		);
 
 		setUsername('');
 		setUserStringKey('');

@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import { fetchMembership } from '../fetch';
 import { IMembership } from '../model';
 import { displayPubkey } from '../utility';
+import bs58 from 'bs58'
 
 type MemberListProps = {
 	memberships: PublicKey[]
@@ -14,8 +15,13 @@ type MemberPropos = {
 }
 
 const ShowMember: FC<MemberPropos> = ({publicKey, data}) => {
+
+	const username = Buffer.from(bs58.decode(data.username)).toString();
+
 	return (<div className="flex flex-row space-x-2 items-center" key={`${data.wallet}`}>
-		<div className="font-semibold">{data.username}</div><div className="text-xs">({displayPubkey(publicKey)})</div>
+
+
+		<div className="font-semibold">{username}</div><div className="text-xs">({displayPubkey(publicKey)})</div>
 	</div>)
 }
 
