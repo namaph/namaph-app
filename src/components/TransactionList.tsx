@@ -11,6 +11,8 @@ type TransactionListProps = {
 type ITxAccount = { publicKey: PublicKey, data: ITransaction };
 
 const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
+	const [threshold, setThreshold] = useState<number>(256);
+	const [seqNo, setSeqNo] = useState<number>(-1);
 	const [aliveTxs, setAliveTxs] = useState<ITxAccount[]>([]);
 	const [staleTxs, setStaleTxs] = useState<ITxAccount[]>([]);
 	const [executedTxs, setExecutedTxs] = useState<ITxAccount[]>([]);
@@ -19,6 +21,9 @@ const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
 		const getData = async () => {
 
 			const [txsAccounts, multisigAccount] = await Promise.all([fetchTransactions(multisig), fetchMultisig(multisig)]);
+
+			setThreshold(multisigAccount.data.threshold.toNumber());
+			setSeqNo(multisigAccount.data.ownerSetSeqno);
 
 			let alive: ITxAccount[] = [];
 			let stale: ITxAccount[] = [];
@@ -54,10 +59,13 @@ const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
 		const list = txs.map(({ publicKey, data }) => {
 			return (
 				<div className="bg-white p-3 rounded" key={publicKey.toBase58()} >
-				<SingleTransactionItem
-					key={publicKey.toBase58()}
-					publicKey={publicKey}
-					data={data} />
+					<SingleTransactionItem
+						key={publicKey.toBase58()}
+						publicKey={publicKey}
+						data={data}
+						threshold={threshold}
+						seqNo={seqNo}
+					/>
 				</div>
 			)
 		})
@@ -77,7 +85,10 @@ const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
 				<SingleTransactionItem
 					key={publicKey.toBase58()}
 					publicKey={publicKey}
-					data={data} />
+					data={data} 
+					threshold={threshold}
+					seqNo={seqNo}
+					/>
 			)
 		})
 		return list
@@ -93,9 +104,12 @@ const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
 		const list = txs.map(({ publicKey, data }) => {
 			return (
 				<div className="bg-gray-300 p-3 rounded" key={publicKey.toBase58()} >
-				<SingleTransactionItem
-					publicKey={publicKey}
-					data={data} />
+					<SingleTransactionItem
+						publicKey={publicKey}
+						data={data}
+						threshold={threshold}
+						seqNo={seqNo}
+						/>
 				</div>
 			)
 		})
@@ -104,6 +118,14 @@ const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
 
 	return (
 		<div>
+			<div className="mb-5">
+					<h1 className="font-semibold text-xl">
+						Current Threshold: <span className="text-red-400">{threshold}</span>
+					</h1>
+					<p>
+						(number of approvals required to be executable)
+					</p>
+			</div>
 			<div className="mb-5">
 				<div className="font-semibold">
 					Current Topics:

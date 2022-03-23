@@ -13,10 +13,12 @@ import { displayPubkey } from '../utility';
 
 type SingleTransactionProps = {
 	publicKey: PublicKey,
-	data: ITransaction
+	data: ITransaction,
+	threshold: Number,
+	seqNo: Number,
 }
 
-const SingleTransactionItem: FC<SingleTransactionProps> = ({ publicKey, data }) => {
+const SingleTransactionItem: FC<SingleTransactionProps> = ({ publicKey, data, threshold, seqNo }) => {
 	const appState = useContext(AppStateContext);
 	const { publicKey: user } = useWallet();
 	const whichProgram = data.programId.toBase58() === namaphProgram.toBase58() ? 'namaph' : 'multisig';
@@ -24,28 +26,13 @@ const SingleTransactionItem: FC<SingleTransactionProps> = ({ publicKey, data }) 
 	let title = '';
 	let contents = <></>;
 
+
 	if (whichProgram === 'namaph') {
 		const instruction = namaphICoder.decode(data.data as Buffer);
 		({title, contents} = getNamapInstructionInfo(instruction!, data));
 	} else {
 		const instruction = multisigICoder.decode(data.data as Buffer);
 		({title, contents} = getMultisigInstructionInfo(instruction!, data));
-	}
-
-	const buttons = () => {
-		if (appState === AppState.Member && !data.didExecute) {
-			return(
-				<div className="flex flex-col space-y-5 place-items-end p-2">
-					<div>
-					<ApproveButton user={user!} multisig={data.multisig} transaction={publicKey} txSigners={data.signers} />
-					</div>
-					<div>
-					<ExecuteButton transaction={publicKey} />	
-					</div>
-
-				</div>
-			)
-		}
 	}
 
 	let numApproved = 0;
@@ -56,6 +43,25 @@ const SingleTransactionItem: FC<SingleTransactionProps> = ({ publicKey, data }) 
 		}
 	});
 
+	const isExecutable = threshold <= numApproved;
+
+	const buttons = () => {
+		if (appState === AppState.Member && !data.didExecute && data.ownerSetSeqno === seqNo) {
+			return(
+				<div className="flex flex-col space-y-5 place-items-end p-2">
+					<div>
+					<ApproveButton user={user!} multisig={data.multisig} transaction={publicKey} txSigners={data.signers} />
+					</div>
+					<div>
+					<ExecuteButton transaction={publicKey} isExecutable={isExecutable}/>	
+					</div>
+
+				</div>
+			)
+		}
+	}
+
+
 	return (
 		<div>
 			<div className="flex flex-row justify-between">
@@ -63,7 +69,7 @@ const SingleTransactionItem: FC<SingleTransactionProps> = ({ publicKey, data }) 
 				<div className="text-xs"> <a className="underline" href={`https://explorer.solana.com/address/${publicKey.toBase58()}?cluster=devnet`}>{displayPubkey(publicKey)}</a></div>
 			</div>
 			<div> {contents} </div>
-			<div className="text-green-600">approved by {numApproved} user(s)</div>
+			<div className="text-green-600">approved by {numApproved} out of {data.signers.length} users.</div>
 			{buttons()}
 		</div>)
 };

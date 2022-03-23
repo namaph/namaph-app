@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { PublicKey } from '@solana/web3.js';
 import { fetchTopology, fetchTransaction } from '../fetch';
 import { execute } from '../rpc';
@@ -10,14 +10,17 @@ import mIdl from '../idl/serum_multisig.json';
 
 
 type ExecuteButtonProps = {
-	transaction: PublicKey
+	transaction: PublicKey,
+	isExecutable: boolean
 }
 
-const ExecuteButton: FC<ExecuteButtonProps> = ({ transaction }) => {
+const ExecuteButton: FC<ExecuteButtonProps> = ({ transaction, isExecutable }) => {
 	const wallet = useAnchorWallet()
+	const [disabled, setDisabled] = useState(!isExecutable);
 
 	// fetch the transaction	
 	const click = async () => {
+		setDisabled(true);
 		const account = await fetchTransaction(transaction)
 
 		const accounts = account.data.accounts as ITransactionAccount[];
@@ -45,7 +48,7 @@ const ExecuteButton: FC<ExecuteButtonProps> = ({ transaction }) => {
 
 
 	return (
-		<button onClick={click} className="p-3 bg-white border border-4 border-gray-800 font-semibold hover:bg-gray-500 hover:text-gray-100 hover:border-gray-500 active:bg-gray-800 active:border-gray-800 active:text-gray-100 disabled:bg-gray-200 disabled:text-gray-400 rounded-full"> execute </button>
+		<button onClick={click} className="p-3 bg-white border border-4 border-gray-800 font-semibold hover:bg-gray-500 hover:text-gray-100 hover:border-gray-500 active:bg-gray-800 active:border-gray-800 active:text-gray-100 disabled:bg-gray-200 disabled:text-gray-400 rounded-full" disabled={disabled}> execute </button>
 	)
 }
 
