@@ -3,7 +3,7 @@ import { IMultisigTransaction, ITopology, IUpdateTopologyData } from '../model';
 import { PublicKey } from '@solana/web3.js';
 import { updateTopology } from '../rpc';
 import { fetchTopology } from '../fetch';
-import { projectName } from '../constants';
+import { projectName, landTypes } from '../constants';
 import { getCityIoValues, getCityIoNodeLabels } from '../cityio';
 
 type IProposeProps = {
@@ -39,7 +39,7 @@ const ProposeUpdateTopology: FC<IProposeProps> = ({ signer, mTx }) => {
 				return (<option value={i} key={`${i}-${v}`}>{v}</option>)
 			})
 			return (
-				<select className="p-3 px-5 rounded-full bg-white font-semibold text-xl" name="label" onChange={labelChange}>
+				<select className="p-3 px-5 rounded-full bg-white font-semibold text-3xl" name="label" onChange={labelChange}>
 					{options}
 				</select>
 			)
@@ -55,11 +55,11 @@ const ProposeUpdateTopology: FC<IProposeProps> = ({ signer, mTx }) => {
 
 	const valueSelect = () => {
 		if (nodeLabels.length !== 0) {
-			const options = ['none', 'primary industry', 'secondary industry', 'terterm industry'].map((v, i) => {
+			const options = landTypes.map((v, i) => {
 				return (<option key={`value-${v}`} value={i}>{v}</option>)
 			})
 			return (
-				<select className="p-3 px-5 rounded-full bg-white font-semibold text-xl" name="value" onChange={valueChange}>
+				<select className="p-3 px-5 rounded-full bg-white font-semibold text-3xl" name="value" onChange={valueChange}>
 					{options}
 				</select>
 			)
@@ -85,6 +85,15 @@ const ProposeUpdateTopology: FC<IProposeProps> = ({ signer, mTx }) => {
 		setDisabled(true);
 	}
 
+	const current =() => {
+		if(updateInfo.id !== -1) {
+			return(
+			<div className="mt-3">
+				current land type: {landTypes[nodeValues[updateInfo.id]]}
+			</div>)	
+		}
+	}
+
 	return (<>
 		<div className="flex flex-col mb-10 space-y-5">
 			<div>
@@ -93,16 +102,22 @@ const ProposeUpdateTopology: FC<IProposeProps> = ({ signer, mTx }) => {
 				<img className="w-full" src={`${process.env.PUBLIC_URL}topology.png`} alt="topology" />
 			</div>
 			<div className="max-w-lg">
-				<div className="flex flex-row justify-between pr-3 text-xl mb-5 items-center">
-					<div>
-						change zone {labelSelect()}
+				<div className="flex flex-col pr-3 text-xl mb-5">
+					<div className="text-left mb-3">
+						Change zone:
 					</div>
-					<div className="align-middle">
-						to
-					</div>
-					<div>
-						{valueSelect()}
-					</div>
+					<div className="flex flex-row place-items-center">
+						<div>
+							{labelSelect()}
+						</div>
+						<div className="px-2">
+							to
+						</div>
+						<div>
+							{valueSelect()}
+						</div>
+						</div>
+					{current()}
 				</div>
 				<button onClick={handleSubmit} disabled={disabled} className="p-3 bg-white border border-4 border-gray-800 font-semibold hover:bg-gray-500 hover:text-gray-100 hover:border-gray-500 active:bg-gray-800 active:border-gray-800 active:text-gray-100 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-400 rounded-full"> submit </button>
 			</div>

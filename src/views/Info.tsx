@@ -56,11 +56,21 @@ const Info = (props: RouteComponentProps) => {
 		return (
 		<div className="flex max-w-lg flex-col space-y-8">
 				<div>general information about this community.</div>
+				<div className="bg-white p-5 rounded">
 				<MultisigInfo data={multisig} publicKey={topology.publicKey} />
+				</div>
+				<div className="bg-white p-5 rounded">
 				<MembershipInfo multisig={multisig} data={membership.data} publicKey={membership.publicKey} />
+				</div>
+				<div className="bg-white p-5 rounded">
 				<TopologyInfo data={topology.data} simLabels={simLabels} publicKey={topology.publicKey} />
+				</div>
+				<div className="bg-white p-5 rounded">
 				<TransactionsInfo accounts={transactions} multisigData={multisig}/>
+				</div>
+				<div className="bg-white p-5 rounded">
 				<TreasuriesInfo accounts={treasuries}/>
+				</div>
 		</div>)
 	} else {
 		return <div>loading info...</div>;

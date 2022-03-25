@@ -1,26 +1,32 @@
 import { PublicKey } from '@solana/web3.js';
 import { FC, useEffect, useState } from 'react';
 import { fetchMultisig, fetchTransactions } from '../fetch';
-import { ITransaction } from '../model';
+import { ITransaction, ITopology, IMultisig } from '../model';
 import SingleTransactionItem from './SingleTransactionItem';
+import { getCityIoNodeLabels } from '../cityio';
 
 type TransactionListProps = {
-	multisig: PublicKey
+	multisig: PublicKey,
+	topologyData: ITopology,
 }
 
 type ITxAccount = { publicKey: PublicKey, data: ITransaction };
 
-const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
+const TransactionList: FC<TransactionListProps> = ({ multisig, topologyData }) => {
 	const [threshold, setThreshold] = useState<number>(256);
 	const [seqNo, setSeqNo] = useState<number>(-1);
 	const [aliveTxs, setAliveTxs] = useState<ITxAccount[]>([]);
 	const [staleTxs, setStaleTxs] = useState<ITxAccount[]>([]);
 	const [executedTxs, setExecutedTxs] = useState<ITxAccount[]>([]);
+	const [multisigData, setMultisigData] = useState<null | IMultisig>(null);
+	const [nodeLabels, setNodeLabels] = useState<string[]>([]);
 
 	useEffect(() => {
 		const getData = async () => {
 
 			const [txsAccounts, multisigAccount] = await Promise.all([fetchTransactions(multisig), fetchMultisig(multisig)]);
+
+			setMultisigData(multisigAccount.data);
 
 			setThreshold(multisigAccount.data.threshold.toNumber());
 			setSeqNo(multisigAccount.data.ownerSetSeqno);
@@ -28,6 +34,9 @@ const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
 			let alive: ITxAccount[] = [];
 			let stale: ITxAccount[] = [];
 			let executed: ITxAccount[] = [];
+
+			const labels = await getCityIoNodeLabels();
+			setNodeLabels(labels);
 
 			txsAccounts.forEach((tx) => {
 				if (tx.data.didExecute) {
@@ -65,6 +74,9 @@ const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
 						data={data}
 						threshold={threshold}
 						seqNo={seqNo}
+						multisig={multisigData!}
+						topology={topologyData}
+						nodeLabels={nodeLabels}
 					/>
 				</div>
 			)
@@ -88,6 +100,9 @@ const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
 					data={data} 
 					threshold={threshold}
 					seqNo={seqNo}
+					multisig={multisigData!}
+					topology={topologyData}
+					nodeLabels={nodeLabels}
 					/>
 			)
 		})
@@ -109,6 +124,9 @@ const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
 						data={data}
 						threshold={threshold}
 						seqNo={seqNo}
+						multisig={multisigData!}
+						topology={topologyData}
+						nodeLabels={nodeLabels}
 						/>
 				</div>
 			)
@@ -116,6 +134,7 @@ const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
 		return <div className="flex flex-col space-y-4"> {list} </div>
 	}
 
+	if(multisigData){
 	return (
 		<div>
 			<div className="mb-5">
@@ -151,10 +170,12 @@ const TransactionList: FC<TransactionListProps> = ({ multisig }) => {
 						{showStaleTransactions(staleTxs)}
 					</div>
 				</div>
-
 			</div>
 		</div>
 	)
+	} else {
+		return <div>loading topics...</div>
+	}
 }
 
 export default TransactionList;

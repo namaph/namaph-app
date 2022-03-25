@@ -19,3 +19,6 @@ export const multisigICoder: BorshInstructionCoder = new BorshInstructionCoder(m
 
 export const discordInviteLink: string = 'https://discord.gg/eFNzXbEr5j';
 export const githubOrgLink: string = 'https://github.com/namaph';
+
+export const landTypes = ['unset', 'Agriculture', 'Office', 'Amenities'];
+export const landTypesShort = ['u', 'Ag', 'O', 'Am'];
