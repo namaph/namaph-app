@@ -2,10 +2,10 @@ import { BorshAccountsCoder, BorshInstructionCoder, Idl } from '@project-serum/a
 import { Connection, PublicKey } from '@solana/web3.js';
 import nIdl from './idl/namaph_multisig.json';
 import mIdl from './idl/serum_multisig.json';
+import setting from './setting.json';
 
-export const projectName = 'debug';
-// export const url = 'https://solana-api.projectserum.com'
-export const url = 'http://localhost:8899';
+export const projectName = setting.projectName;
+export const url = setting.url;
 
 export const namaphProgram: PublicKey = new PublicKey(nIdl.metadata.address);
 export const multisigProgram: PublicKey = new PublicKey(mIdl.metadata.address);

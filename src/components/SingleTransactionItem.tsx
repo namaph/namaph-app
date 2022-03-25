@@ -49,7 +49,7 @@ const SingleTransactionItem: FC<SingleTransactionProps> = ({ publicKey, data, th
 	const isExecutable = threshold <= numApproved;
 
 	const buttonsAndCurrent = () => {
-		if (appState == AppState.Member && !data.didExecute && data.ownerSetSeqno === seqNo) {
+		if (appState === AppState.Member && !data.didExecute && data.ownerSetSeqno === seqNo) {
 			return (
 				<div>
 					{current()}
