@@ -54,15 +54,19 @@ const ApproveButton: FC<ApproveButtonProps> = ({ user, multisig, transaction, tx
 		const namaphProgram = new Program(nIdl as Idl, nIdl.metadata.address, provider);
 		const multisigProgram = new Program(mIdl as Idl, mIdl.metadata.address, provider);
 		const programs = { namaph: namaphProgram, multisig: multisigProgram };
-
+		setAlreadyApproved(true);
 		await approve(programs, multisig, transaction, membership!);
 	}
 
+	if(alreadyApproved){
+		return(<div> you already approved </div>)
+	} else {
 	return (
 		<>
-			<button className="disabled:bg-gray-200 disabled:text-gray-400 p-3 rounded-full" disabled={alreadyApproved} onClick={click} > approve </button>
+		<button onClick={click} className="p-3 bg-white border border-4 border-gray-800 font-semibold hover:bg-gray-500 hover:text-gray-100 hover:border-gray-500 active:bg-gray-800 active:border-gray-800 active:text-gray-100 disabled:bg-gray-200 disabled:text-gray-400 rounded-full" disabled={alreadyApproved}> approve </button>
 		</>
 	)
+	}
 }
 
 export default ApproveButton

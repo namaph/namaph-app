@@ -8,6 +8,7 @@ import Footer from './Footer';
 import Home from '../views/Home';
 import List from '../views/List';
 import Join from '../views/Join';
+import Info from '../views/Info';
 import Propose from '../views/Propose';
 import { AppState } from '../model';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -52,6 +53,7 @@ const Container = () => {
 					<List path="list" />
 					<Propose path="propose" />
 					<Join path="join" />
+					<Info path="info" />
 				</Router>
 				<Footer />
 			</div>
