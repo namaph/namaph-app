@@ -101,7 +101,7 @@ const Home = (props: RouteComponentProps) => {
 				<div className="font-semibold">Current Result:
 					<Link to="/about" className="font-normal text-xs ml-3 underline italic"><FontAwesomeIcon icon={faCircleQuestion} /> what is this?</Link>
 				</div>
-				{showVisualizations()}
+				<img src="https://storage.googleapis.com/instant-sim-viz/instant-sim-v4.gif"></img>
 			</div>
 			<div>
 				<div className="font-semibold">Node Values:</div>
